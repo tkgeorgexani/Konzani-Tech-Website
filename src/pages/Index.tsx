@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { ArrowRight, Phone, Mail } from "lucide-react"; // Import icons
+import {
+	Card,
+	CardHeader,
+	CardTitle,
+	CardDescription,
+	CardContent,
+} from "@/components/ui/card";
+import { ArrowRight, Phone, Mail, Box } from "lucide-react"; // Import icons
+import "./card-hover.css"; // <-- create this file if you want to keep styles separate
 
 const services = [
 	{
@@ -66,8 +73,10 @@ const Index = () => {
 								Through Technology
 							</h1>
 							<p className="text-lg md:text-xl text-blue-100 mb-8 max-w-xl">
-								We develop modern websites, bold brand identities, business systems,
-								and custom tools—all under one roof, built to serve your mission.
+								We develop modern websites, bold brand identities, business
+								systems,
+								<br className="hidden sm:block" /> and custom tools—all under
+								one roof, built to serve your mission.
 							</p>
 							<div className="flex flex-col sm:flex-row gap-4">
 								<Button
@@ -106,7 +115,7 @@ const Index = () => {
 			</section>
 
 			{/* Services Overview */}
-			<section className="py-20 bg-white">
+			<section className="py-20" style={{ background: "#f5f5dc" }}>
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-center mb-16">
 						<h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -120,35 +129,36 @@ const Index = () => {
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-10">
 						{services.map((service, index) => (
-							<Card
+							<Link
+								to={service.link}
 								key={index}
-								className="h-full p-8 flex flex-col justify-between border border-gray-200 shadow-none hover:shadow-lg transition-shadow duration-300 bg-[#113452]"
+								className="group block rounded-xl overflow-hidden transition-shadow duration-300"
+								style={{ textDecoration: "none" }}
 							>
-								<div>
-									<h3 className="text-2xl font-semibold text-white mb-4">
-										{service.title}
-									</h3>
-									<p className="text-blue-100 text-base mb-6">
-										{service.description}
-									</p>
+								<div className="card-hover-bg h-full p-8 flex flex-col justify-between border border-gray-200 shadow-none bg-white group-hover:bg-[#113452] transition-colors duration-500 relative">
+									<div>
+										<h3 className="text-2xl font-semibold mb-4 transition-colors duration-300 group-hover:text-white">
+											{service.title}
+										</h3>
+										<p className="text-gray-600 text-base mb-6 transition-colors duration-300 group-hover:text-blue-100">
+											{service.description}
+										</p>
+									</div>
+									<div className="flex justify-between items-center border-t pt-4 mt-4 border-blue-100 group-hover:border-blue-900">
+										<span className="font-semibold text-blue-700 group-hover:text-yellow-400 flex items-center transition-colors duration-300">
+											Read More
+											<ArrowRight className="ml-2 h-4 w-4" />
+										</span>
+									</div>
 								</div>
-								<div className="flex justify-between items-center border-t border-blue-900 pt-4 mt-4">
-									<Link
-										to={service.link}
-										className="font-semibold text-yellow-400 hover:underline flex items-center"
-									>
-										Read More
-										<ArrowRight className="ml-2 h-4 w-4" />
-									</Link>
-								</div>
-							</Card>
+							</Link>
 						))}
 					</div>
 				</div>
 			</section>
 
 			{/* Why Choose Us */}
-			<section className="py-20 bg-gray-50">
+			<section className="py-20" style={{ background: "#f5f5dc" }}>
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-center mb-16">
 						<h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -159,24 +169,78 @@ const Index = () => {
 							exceptional results
 						</p>
 					</div>
-
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-						{highlights.map((highlight, index) => (
-							<div
-								key={index}
-								className="text-center bg-[#113452] rounded-lg p-8 flex flex-col items-center"
-							>
-								<div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-									<span className="text-white text-2xl font-bold">
-										{index + 1}
-									</span>
+					{/* Cards Row */}
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+						{/* Card 1 */}
+						<div className="rounded-2xl bg-[#f7f7f7] shadow flex flex-col justify-between p-8 h-full border border-gray-200">
+							<div className="mb-6">
+								<div className="bg-white rounded-xl w-16 h-16 flex items-center justify-center mb-4">
+									<Box className="h-8 w-8 text-[#113452]" />
 								</div>
-								<h3 className="text-xl font-semibold text-white mb-4">
-									{highlight.title}
+								<h3 className="text-2xl font-bold mb-2 text-gray-900">
+									Local Expertise
 								</h3>
-								<p className="text-blue-100">{highlight.description}</p>
+								<p className="text-gray-700">
+									Deep understanding of Malawi's business landscape and unique
+									challenges.
+								</p>
 							</div>
-						))}
+						</div>
+						{/* Card 2 */}
+						<div className="rounded-2xl bg-[#f7f7f7] shadow flex flex-col justify-between p-8 h-full border border-gray-200">
+							<div className="mb-6">
+								<div className="bg-white rounded-xl w-16 h-16 flex items-center justify-center mb-4">
+									<Box className="h-8 w-8 text-[#113452]" />
+								</div>
+								<h3 className="text-2xl font-bold mb-2 text-gray-900">
+									Custom Solutions
+								</h3>
+								<p className="text-gray-700">
+									Tailored technology solutions designed specifically for your
+									business needs.
+								</p>
+							</div>
+						</div>
+						{/* Card 3 */}
+						<div className="rounded-2xl bg-[#f7f7f7] shadow flex flex-col justify-between p-8 h-full border border-gray-200">
+							<div className="mb-6">
+								<div className="bg-white rounded-xl w-16 h-16 flex items-center justify-center mb-4">
+									<Box className="h-8 w-8 text-[#113452]" />
+								</div>
+								<h3 className="text-2xl font-bold mb-2 text-gray-900">
+									24/7 Support
+								</h3>
+								<p className="text-gray-700">
+									Dedicated local support team available when you need us most.
+								</p>
+							</div>
+						</div>
+					</div>
+					{/* CTA Card */}
+					<div className="grid grid-cols-1 md:grid-cols-3">
+						<div className="md:col-span-3">
+							<div className="rounded-2xl bg-[#113452] shadow flex flex-col md:flex-row items-center justify-between p-8 md:p-12">
+								<div>
+									<h3 className="text-2xl font-bold mb-2 text-white">
+										Ready to Transform?
+									</h3>
+									<p className="text-blue-100 mb-6 md:mb-0">
+										Get in touch with our team today to discuss how we can help
+										your business grow with the right technology solutions.
+									</p>
+								</div>
+								<Button
+									asChild
+									size="lg"
+									className="bg-white text-[#113452] hover:bg-yellow-400 hover:text-[#113452] font-semibold transition-colors"
+								>
+									<Link to="/contact">
+										Contact Now
+										<ArrowRight className="ml-2 h-5 w-5" />
+									</Link>
+								</Button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</section>
@@ -197,8 +261,12 @@ const Index = () => {
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 						<Card className="hover:shadow-lg transition-shadow duration-300 bg-[#113452]">
 							<CardHeader>
-								<CardTitle className="text-lg text-white">E-commerce Platform</CardTitle>
-								<CardDescription className="text-blue-100">Local retail business</CardDescription>
+								<CardTitle className="text-lg text-white">
+									E-commerce Platform
+								</CardTitle>
+								<CardDescription className="text-blue-100">
+									Local retail business
+								</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<p className="text-blue-100">
@@ -210,8 +278,12 @@ const Index = () => {
 
 						<Card className="hover:shadow-lg transition-shadow duration-300 bg-[#113452]">
 							<CardHeader>
-								<CardTitle className="text-lg text-white">Network Infrastructure</CardTitle>
-								<CardDescription className="text-blue-100">Educational institution</CardDescription>
+								<CardTitle className="text-lg text-white">
+									Network Infrastructure
+								</CardTitle>
+								<CardDescription className="text-blue-100">
+									Educational institution
+								</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<p className="text-blue-100">
@@ -223,8 +295,12 @@ const Index = () => {
 
 						<Card className="hover:shadow-lg transition-shadow duration-300 bg-[#113452]">
 							<CardHeader>
-								<CardTitle className="text-lg text-white">Business Management System</CardTitle>
-								<CardDescription className="text-blue-100">Manufacturing company</CardDescription>
+								<CardTitle className="text-lg text-white">
+									Business Management System
+								</CardTitle>
+								<CardDescription className="text-blue-100">
+									Manufacturing company
+								</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<p className="text-blue-100">
@@ -233,35 +309,6 @@ const Index = () => {
 								</p>
 							</CardContent>
 						</Card>
-					</div>
-				</div>
-			</section>
-
-			{/* Contact CTA */}
-			<section className="py-20 bg-blue-600">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-					<h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-						Ready to Transform Your Business?
-					</h2>
-					<p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-						Get in touch with our team today to discuss how we can help your
-						business grow with the right technology solutions.
-					</p>
-
-					<div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-						<Button asChild size="lg" variant="secondary">
-							<Link to="/contact">Get Started Today</Link>
-						</Button>
-						<div className="flex items-center justify-center space-x-6 text-white">
-							<div className="flex items-center space-x-2">
-								<Phone className="h-5 w-5" />
-								<span>+265 XXX XXX XXX</span>
-							</div>
-							<div className="flex items-center space-x-2">
-								<Mail className="h-5 w-5" />
-								<span>info@konzanitech.mw</span>
-							</div>
-						</div>
 					</div>
 				</div>
 			</section>
