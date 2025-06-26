@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { ArrowRight, Phone, Mail, Box } from "lucide-react"; // Import icons
 import "./card-hover.css"; // <-- create this file if you want to keep styles separate
+import { useState } from "react";
 
 const services = [
 	{
@@ -36,6 +37,101 @@ const services = [
 		link: "/services/cyber-security",
 	},
 ];
+
+const testimonials = [
+	{
+		name: "Chikondi Banda",
+		company: "Malawi Retailers Ltd.",
+		message:
+			"Konzani Tech delivered our e-commerce platform on time and exceeded our expectations. Their support team is always available and helpful!",
+		image: "https://randomuser.me/api/portraits/men/32.jpg",
+	},
+	{
+		name: "Linda Mphatso",
+		company: "Blantyre Schools",
+		message:
+			"The custom software they built for us has streamlined our operations. Highly recommended for any business looking for real results.",
+		image: "https://randomuser.me/api/portraits/women/44.jpg",
+	},
+	{
+		name: "Peter Zulu",
+		company: "ZamNet Solutions",
+		message:
+			"Their networking solutions are reliable and secure. We’ve never had a smoother IT experience.",
+		image: "https://randomuser.me/api/portraits/men/65.jpg",
+	},
+];
+
+type Testimonial = {
+	name: string;
+	company: string;
+	message: string;
+	image: string;
+};
+
+function TestimonialCarousel({
+	testimonials,
+}: {
+	testimonials: Testimonial[];
+}) {
+	const [current, setCurrent] = useState(0);
+
+	const prev = () =>
+		setCurrent((current - 1 + testimonials.length) % testimonials.length);
+	const next = () =>
+		setCurrent((current + 1) % testimonials.length);
+
+	return (
+		<div className="flex flex-col items-center">
+			<div className="relative w-full max-w-xl">
+				<div className="rounded-2xl bg-[#f7f7f7] shadow p-8 border border-gray-200 flex flex-col items-center text-center min-h-[260px] transition-all duration-500">
+					<img
+						src={testimonials[current].image}
+						alt={testimonials[current].name}
+						className="w-16 h-16 rounded-full mx-auto mb-4 object-cover"
+					/>
+					<p className="text-lg text-gray-800 mb-4">
+						&ldquo;{testimonials[current].message}&rdquo;
+					</p>
+					<div className="font-semibold text-[#113452]">
+						{testimonials[current].name}
+					</div>
+					<div className="text-gray-500 text-sm">
+						{testimonials[current].company}
+					</div>
+				</div>
+				{/* Carousel Controls */}
+				<button
+					onClick={prev}
+					className="absolute left-0 top-1/2 -translate-y-1/2 bg-white border border-gray-300 rounded-full p-2 shadow hover:bg-gray-100 transition"
+					aria-label="Previous"
+				>
+					&#8592;
+				</button>
+				<button
+					onClick={next}
+					className="absolute right-0 top-1/2 -translate-y-1/2 bg-white border border-gray-300 rounded-full p-2 shadow hover:bg-gray-100 transition"
+					aria-label="Next"
+				>
+					&#8594;
+				</button>
+			</div>
+			{/* Dots */}
+			<div className="flex gap-2 mt-6">
+				{testimonials.map((_, idx) => (
+					<button
+						key={idx}
+						className={`w-3 h-3 rounded-full ${
+							idx === current ? "bg-[#113452]" : "bg-gray-300"
+						}`}
+						onClick={() => setCurrent(idx)}
+						aria-label={`Go to testimonial ${idx + 1}`}
+					/>
+				))}
+			</div>
+		</div>
+	);
+}
 
 const Index = () => {
 	const highlights = [
@@ -245,71 +341,18 @@ const Index = () => {
 				</div>
 			</section>
 
-			{/* Recent Projects */}
+			{/* Client Testimonials */}
 			<section className="py-20 bg-white">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="text-center mb-16">
 						<h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-							Recent Projects & Clients
+							Client Testimonials
 						</h2>
 						<p className="text-lg text-gray-600 max-w-2xl mx-auto">
-							We're proud to have served businesses across Malawi with innovative
-							technology solutions
+							Hear what our clients say about working with Konzani Technology.
 						</p>
 					</div>
-
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-						<Card className="hover:shadow-lg transition-shadow duration-300 bg-[#113452]">
-							<CardHeader>
-								<CardTitle className="text-lg text-white">
-									E-commerce Platform
-								</CardTitle>
-								<CardDescription className="text-blue-100">
-									Local retail business
-								</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<p className="text-blue-100">
-									Developed a comprehensive e-commerce solution that increased
-									online sales by 200% for a local retailer in Zomba.
-								</p>
-							</CardContent>
-						</Card>
-
-						<Card className="hover:shadow-lg transition-shadow duration-300 bg-[#113452]">
-							<CardHeader>
-								<CardTitle className="text-lg text-white">
-									Network Infrastructure
-								</CardTitle>
-								<CardDescription className="text-blue-100">
-									Educational institution
-								</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<p className="text-blue-100">
-									Implemented secure network infrastructure for a local school,
-									connecting 200+ devices with reliable Wi-Fi coverage.
-								</p>
-							</CardContent>
-						</Card>
-
-						<Card className="hover:shadow-lg transition-shadow duration-300 bg-[#113452]">
-							<CardHeader>
-								<CardTitle className="text-lg text-white">
-									Business Management System
-								</CardTitle>
-								<CardDescription className="text-blue-100">
-									Manufacturing company
-								</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<p className="text-blue-100">
-									Created a custom inventory management system that streamlined
-									operations and reduced processing time by 50%.
-								</p>
-							</CardContent>
-						</Card>
-					</div>
+					<TestimonialCarousel testimonials={testimonials} />
 				</div>
 			</section>
 		</div>
