@@ -44,27 +44,21 @@ const Navbar = () => {
     }
   ];
 
-  // Function to send form data to email via EmailJS (client-side)
+  // Function to send form data to backend for email
   const sendQuoteEmail = async (formData: any) => {
-    // You need to set up EmailJS (https://www.emailjs.com/) and replace these values:
-    const serviceID = "your_service_id";
-    const templateID = "your_template_id";
-    const userID = "your_public_key";
-    const templateParams = {
-      firstname: formData.get("firstname"),
-      lastname: formData.get("lastname"),
+    const payload = {
+      name: formData.get("firstname") + " " + formData.get("lastname"),
       email: formData.get("email"),
-      countryCode: formData.get("countryCode"),
-      phone: formData.get("phone"),
-      service: formData.get("service"),
-      additionalInfo: formData.get("additionalInfo"),
-      to_email: "thokozanigeorgee@gmail.com"
+      message:
+        `Phone: ${formData.get("countryCode")}${formData.get("phone")}, Service: ${formData.get("service")}, Additional Info: ${formData.get("additionalInfo")}`
     };
-
     try {
-      // @ts-ignore
-      await window.emailjs.send(serviceID, templateID, templateParams, userID);
-      return true;
+      const response = await fetch("http://localhost:5000/send-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      return response.ok;
     } catch (error) {
       return false;
     }
